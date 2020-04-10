@@ -1,14 +1,16 @@
-package ParasiteWordsOfTolstoy;
+package DiscreteRandomVariable;
 
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 
 
 public class Main {
@@ -16,11 +18,11 @@ public class Main {
 
         // input data:
         System.out.print("Enter minimum length of word: ");
-        int minLength = new Scanner(System.in).nextInt();
+        int minLength = 5;//new Scanner(System.in).nextInt();
         System.out.print("Enter maximum length of word: ");
-        int maxLength = new Scanner(System.in).nextInt();
+        int maxLength = 15;//new Scanner(System.in).nextInt();
         System.out.print("Enter minimum frequency: ");
-        int minFrequency = new Scanner(System.in).nextInt();
+        int minFrequency = 1;//new Scanner(System.in).nextInt();
         System.out.println("Enter filename: ");
         System.out.println("* hint: mayby you want try \"Tolstoy.txt\" ?");
         // paste this:
@@ -30,7 +32,7 @@ public class Main {
         try (final Stream<String> lines =
                 Files.lines(
                      Paths.get("out/production/For_Politech_spring_semester_2020/ParasiteWordsOfTolstoy/"
-                                                             + new Scanner(System.in).nextLine()))
+                                              + new Scanner(System.in).nextLine()))
                 .map(line -> line.split("[-\\t,;.?!:@\\[\\](){}_*/\\s+]+"))  // delimiters
                 .flatMap(Arrays::stream)){
 
@@ -53,4 +55,14 @@ public class Main {
         }
 
     }
+
+    class ValuesForFrequency{
+        int Xi;  // Frequency
+        int Pi;  // Probability
+        int M;   // Mathematical Expectation
+        int D;   // Random Variance Dispersion
+
+    }
+
+
 }
