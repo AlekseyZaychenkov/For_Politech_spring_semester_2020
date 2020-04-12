@@ -22,7 +22,7 @@ public class Main {
         System.out.print("Enter minimum frequency: ");
         int minFrequency = new Scanner(System.in).nextInt();
         System.out.println("Enter filename: ");
-        System.out.println("* hint: mayby you want try \"Tolstoy.txt\" ?");
+        System.out.println("* hint: mayby you want try \"Tolstoy.txt\"?");
         // paste this:
         // Tolstoy.txt
 
