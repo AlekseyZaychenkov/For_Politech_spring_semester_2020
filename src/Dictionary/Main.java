@@ -1,4 +1,4 @@
-package ParasiteWordsOfTolstoy;
+package Dictionary;
 
 
 import java.io.IOException;
@@ -6,37 +6,60 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 
 
 public class Main {
     public static void main(String[] args) throws IOException {
 
+        ArrayList<EntryOfDictionary> listOfEntriesD = new ArrayList<EntryOfDictionary>();
         // input data:
-        System.out.print("Enter minimum length of word: ");
-        int minLength = new Scanner(System.in).nextInt();
-        System.out.print("Enter maximum length of word: ");
-        int maxLength = new Scanner(System.in).nextInt();
-        System.out.print("Enter minimum frequency: ");
-        int minFrequency = new Scanner(System.in).nextInt();
-        System.out.println("Enter filename: ");
-        System.out.println("* hint: mayby you want try \"Tolstoy.txt\"?");
-        // paste this:
-        // Tolstoy.txt
+
 
         // getting lines from file:
         try (final Stream<String> lines =
                 Files.lines(
-                     Paths.get("out/production/For_Politech_spring_semester_2020/ParasiteWordsOfTolstoy/"
-                                                             + new Scanner(System.in).nextLine()))
-                .map(line -> line.split("[-\\t,;.?!:@\\[\\](){}_*/\\s+]+"))  // delimiters
-                .flatMap(Arrays::stream)){
+                     Paths.get("src\\Dictionary\\Русский Региональный Ассоциативный СловарьТезаурус.txt"))
+                 .flatMap(line->Arrays.stream(line.split(" ")))){
+
+            // creating a List with all words from the file
+            List<String> storageList = lines
+                    .filter(x -> x.length() != 0)
+                    .collect(Collectors.toList());
+
+            EntryOfDictionary entryOfDictionary = new EntryOfDictionary("start");
+
+            for (String word : storageList){
+                //if(!word.matches("[-+]?\\d+"))
+                    entryOfDictionary.addAssociation(word);
+             //   else
+              //      entryOfDictionary.addWeight(Integer.parseInt(word));
+
+                if(word.matches("[А-Я]:")){
+                    listOfEntriesD.add(entryOfDictionary);
+                    entryOfDictionary = new EntryOfDictionary(word);
+                }
+            }
+            listOfEntriesD.add(entryOfDictionary);
+
+            for (int i=0; i<2; i++) {
+                System.out.println(listOfEntriesD.get(i).toString());
+                System.out.println("=============================");
+            }
+
+
+            for (int i=0; i<100; i++) {
+                System.out.println(storageList.get(i));
+                System.out.println("=============================");
+            }
+
+
+
+
 
             // getting map from lines:
-            Map<String, Long> countMap = lines
+           /* Map<String, Long> countMap = lines
                     .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
             // filtering words by length and frequency + sort
@@ -51,6 +74,7 @@ public class Main {
             // printing out have got result
             for (Map.Entry<String, Long> entry : filteredMap.entrySet())
                 System.out.println(String.format("%1$"+maxLength+ "s", entry.getKey()) +": " + entry.getValue().toString());
+        */
         } catch (NullPointerException npe) {
             System.out.println("Wow, NullPointerException, yeah?");
         } catch (NoSuchFileException ex){
@@ -58,6 +82,7 @@ public class Main {
         } catch (Exception e){
             System.out.println(e);
         }
+
 
     }
 }

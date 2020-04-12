@@ -89,7 +89,6 @@ public class Main {
             M += (double) entityFF.getXi() * entityFF.getPi();
             D += (double) entityFF.getXi() * (double) entityFF.getXi() * entityFF.getPi();
             entitiesList.set(i, entityFF);
-
         }
         D -= M*M;
     }
@@ -116,22 +115,7 @@ public class Main {
         System.out.println();
 
         System.out.println("Mathematical Expectation: "+M);
-
         System.out.println("Random Variance Dispersion: "+D);
-
-
-      /*  for(EntityForFrequency entityFF : entitiesList)
-            System.out.print(String.format("%1$"+entityFF.getXi()+" "+'\t'+'\t'+'\t'+'\t'));
-        System.out.println();
-        for(EntityForFrequency entityFF : entitiesList)
-            System.out.print(String.format("%1$"+entityFF.getPi()+" "+'\t'+'\t'+'\t'+'\t'));
-        System.out.println();
-        for(EntityForFrequency entityFF : entitiesList)
-            System.out.print(String.format("%1$"+entityFF.getM()+" "+'\t'+'\t'+'\t'+'\t'));
-        System.out.println();
-        for(EntityForFrequency entityFF : entitiesList)
-            System.out.print(String.format("%1$"+entityFF.getD()+" "+'\t'+'\t'+'\t'+'\t'));
-        System.out.println();*/
     }
 
 
