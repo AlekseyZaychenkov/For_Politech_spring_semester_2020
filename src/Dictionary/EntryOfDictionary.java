@@ -29,7 +29,7 @@ public class EntryOfDictionary {
     public String toString() {
         return "EntryOfDictionary{" +
                 "word='" + word + '\'' +
-                ", associations=" + associations.toString() +
+                ", associations("+associations.size()+") =" + associations.toString() +
                 '}';
     }
 }

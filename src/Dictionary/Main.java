@@ -12,46 +12,49 @@ import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-
         ArrayList<EntryOfDictionary> listOfEntriesD = new ArrayList<EntryOfDictionary>();
-        // input data:
-
 
         // getting lines from file:
         try (final Stream<String> lines =
                 Files.lines(
                      Paths.get("src\\Dictionary\\Русский Региональный Ассоциативный СловарьТезаурус.txt"))
-                 .flatMap(line->Arrays.stream(line.split(" ")))){
+                 .flatMap(line->Arrays.stream(line.split("[,;\\s+]")))){
 
             // creating a List with all words from the file
             List<String> storageList = lines
                     .filter(x -> x.length() != 0)
                     .collect(Collectors.toList());
 
+
             EntryOfDictionary entryOfDictionary = new EntryOfDictionary("start");
 
             for (String word : storageList){
-                //if(!word.matches("[-+]?\\d+"))
-                    entryOfDictionary.addAssociation(word);
-             //   else
-              //      entryOfDictionary.addWeight(Integer.parseInt(word));
+                word = word.replace(",", " ").trim();
+                try {
+                    if (!word.matches("[0-9]{1,30}"))
+                        entryOfDictionary.addAssociation(word);
+                    else
+                        entryOfDictionary.addWeight(Integer.parseInt(word));
+                } catch (NumberFormatException nfe) {
+                    System.out.println(nfe);
+                }
 
-                if(word.matches("[А-Я]:")){
+                if(word.matches("[А-Я]{1,50}:")){
                     listOfEntriesD.add(entryOfDictionary);
                     entryOfDictionary = new EntryOfDictionary(word);
                 }
             }
             listOfEntriesD.add(entryOfDictionary);
 
-            for (int i=0; i<2; i++) {
+            for (int i=0; i<10; i++) {
                 System.out.println(listOfEntriesD.get(i).toString());
                 System.out.println("=============================");
             }
 
 
-            for (int i=0; i<100; i++) {
+            for (int i=300; i<350; i++) {
                 System.out.println(storageList.get(i));
-                System.out.println("=============================");
+                System.out.println("---------------");
             }
 
 
@@ -82,7 +85,5 @@ public class Main {
         } catch (Exception e){
             System.out.println(e);
         }
-
-
     }
 }
