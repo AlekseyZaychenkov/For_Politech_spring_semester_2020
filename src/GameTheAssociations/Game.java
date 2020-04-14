@@ -1,7 +1,6 @@
-package Dictionary;
+package GameTheAssociations;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class Game {
@@ -29,7 +28,7 @@ public class Game {
                 roundLeftsCounter = 12;
                 difficultyLevelString = "easy";
                 do {
-                    entryOfDictionary = listOfEntriesD.get((int)(Math.random()*listOfEntriesD.size()));
+                    entryOfDictionary = listOfEntriesD.get((int)Math.floor(Math.random()*listOfEntriesD.size()));
                 } while ((entryOfDictionary.getAssociations_strong().size()+entryOfDictionary.getAssociations_medium().size())<=roundLeftsCounter);
                 entriesAssociations = new ArrayList<String>(entryOfDictionary.getAssociations_strong().keySet());
                 entriesAssociations.addAll(entryOfDictionary.getAssociations_medium().keySet());
@@ -38,7 +37,7 @@ public class Game {
                 roundLeftsCounter = 10;
                 difficultyLevelString = "medium";
                 do {
-                    entryOfDictionary = listOfEntriesD.get((int)(Math.random()*listOfEntriesD.size()));
+                    entryOfDictionary = listOfEntriesD.get((int)Math.floor(Math.random()*listOfEntriesD.size()));
                 } while ((entryOfDictionary.getAssociations_strong().size()+entryOfDictionary.getAssociations_medium().size())<=roundLeftsCounter);
                 entriesAssociations =  new ArrayList<String>(entryOfDictionary.getAssociations_strong().keySet());
                 entriesAssociations.addAll(entryOfDictionary.getAssociations_medium().keySet());
@@ -47,7 +46,7 @@ public class Game {
                 roundLeftsCounter = 10;
                 difficultyLevelString = "hard";
                 do {
-                    entryOfDictionary = listOfEntriesD.get((int)(Math.random()*listOfEntriesD.size()));
+                    entryOfDictionary = listOfEntriesD.get((int)Math.floor(Math.random()*listOfEntriesD.size()));
                 } while (entryOfDictionary.getAssociations_weak().size()<=roundLeftsCounter);
                 entriesAssociations =  new ArrayList<String>(entryOfDictionary.getAssociations_weak().keySet());
                 break;

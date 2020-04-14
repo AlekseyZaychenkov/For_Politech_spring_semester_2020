@@ -1,4 +1,4 @@
-package Dictionary;
+package GameTheAssociations;
 
 
 import java.util.HashMap;

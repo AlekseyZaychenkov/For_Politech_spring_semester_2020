@@ -1,4 +1,4 @@
-package Dictionary;
+package GameTheAssociations;
 
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
