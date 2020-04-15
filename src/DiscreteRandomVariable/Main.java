@@ -1,13 +1,16 @@
 package DiscreteRandomVariable;
 
+/*"Длина слова - дискретная случайная величина X. На вход программе передается текст.
+Найти закон распределения X в форме таблицы, например:
+Xi  4         5         8
+Pi  0.23    0.5     0.27
+Вычислите мат. ожидание и дисперсию X."*/
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.NoSuchFileException;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
