@@ -34,7 +34,7 @@ public class DictionaryReader {
                     else
                         entryOfDictionary.addWeight(Integer.parseInt(word));
                 } catch (NumberFormatException nfe) {
-                    System.out.println(nfe);
+                    System.out.println("DictionaryReader: "+nfe);
                 }
 
                 if (word.matches("[А-Я]{1,50}:")) {
