@@ -4,10 +4,7 @@ package AlisaFalloutServer;
 import GameTheAssociations.DictionaryReader;
 import GameTheAssociations.EntryOfDictionary;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
@@ -20,18 +17,16 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
-public class AlisaServer {
+public class AlisaServer2 {
     static HashSet<String> prepositions;
     static ArrayList<EntryOfDictionary> listOfAssociationEntriesD;
     static boolean prepositionsAreReady;
     static boolean associationsAreReady;
-    static final String PREPOSITIONPATH = "src\\prepositions.txt";
-    static final String DICTIONARYPATH ="src\\Русский Региональный Ассоциативный СловарьТезаурус.txt";
 
 
     static {
         try {
-            prepositions = readPrepositions(PREPOSITIONPATH);
+            prepositions = readPrepositions("src\\AlisaFalloutServer\\prepositions.txt");
             if ((prepositions == null) || (prepositions.size() == 0))
                 System.out.println("The dictionary is has not been read!");
             else {
@@ -42,7 +37,7 @@ public class AlisaServer {
             System.out.println("Can't read prepositions");
         }
 
-        listOfAssociationEntriesD = (ArrayList<EntryOfDictionary>) DictionaryReader.readDictionary(DICTIONARYPATH);
+        listOfAssociationEntriesD = (ArrayList<EntryOfDictionary>) DictionaryReader.readDictionary("src\\GameTheAssociations\\Русский Региональный Ассоциативный СловарьТезаурус.txt");
         if ((listOfAssociationEntriesD == null) || (listOfAssociationEntriesD.size() == 0))
             System.out.println("The dictionary is has not been read!");
         else {
@@ -63,26 +58,42 @@ public class AlisaServer {
 
         ServerSocket serverSocket = new ServerSocket(Integer.parseInt(args[0]));
         ExecutorService executorService = Executors.newCachedThreadPool();
-        for (int i = 0; i < 3; i++) {
-            executorService.submit(() -> {
-                try (
-                        Socket clientSocket = serverSocket.accept();
-                        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                        BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
-                ) {
-                    String inputLine;
-                    while ((inputLine = in.readLine()) != null) {
-                        if (inputLine.equals("close"))
-                            break;
-                        out.println(toFormAnswer(inputLine));
+        // for (int i = 0; i < 3; i++) {
+
+        executorService.submit(() -> {
+            try (
+                    Socket clientSocket = serverSocket.accept();
+                    PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+                    ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(clientSocket.getInputStream()))
+            ) {
+                String inputLine = "none";
+
+                Object objectInput= null;
+                //System.out.println(in.read());
+
+                while ((objectInput = in.readObject()) != null) {
+
+                    if(objectInput instanceof String) {
+                        System.out.println("Is String");
+                        inputLine = (String) objectInput;
+                    } else {
+                        System.out.println("Not String");
                     }
-                    //out.println("Closing connection with server");
-                } catch (IOException e) {
-                    System.out.println("Exception caught when trying to listen on port " + portNumber + " or listening for a connection");
-                    System.out.println(e.getMessage());
+
+                    if (inputLine.equals("close"))
+                        break;
+                    out.println(toFormAnswer(inputLine));
                 }
-            });
-        }
+                //out.println("Closing connection with server");
+            } catch (IOException e) {
+                System.out.println("Exception caught when trying to listen on port " + portNumber + " or listening for a connection");
+                System.out.println(e.getMessage());
+            } catch (ClassNotFoundException ec){
+                System.out.println("ClassNotFoundException");
+                System.out.println(ec.getMessage());
+            }
+        });
+        //}
         executorService.awaitTermination(5, TimeUnit.MINUTES);
         serverSocket.close();
     }
@@ -170,5 +181,8 @@ public class AlisaServer {
         }
         return prepositions;
     }
-}
 
+
+
+
+}

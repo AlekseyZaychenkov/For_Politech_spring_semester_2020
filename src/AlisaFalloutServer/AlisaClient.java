@@ -11,10 +11,7 @@ package AlisaFalloutServer;
 строку close. Строки клиент считывает из консоли.
 [использование словаря ассоциаций +20 баллов, искусственного интеллекта +100 баллов]"*/
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -34,8 +31,8 @@ public class AlisaClient {
             int portNumber = Integer.parseInt(address[1]);
 
             try (  Socket echoSocket = new Socket(hostName, portNumber);
-                    PrintWriter out =
-                            new PrintWriter(echoSocket.getOutputStream(), true);
+                    ObjectOutputStream out =
+                            new ObjectOutputStream(echoSocket.getOutputStream());
                     BufferedReader in =
                             new BufferedReader(
                                     new InputStreamReader(echoSocket.getInputStream()));
@@ -45,7 +42,9 @@ public class AlisaClient {
             ) {
                 String userInput;
                 while ((userInput = stdIn.readLine()) != null) {
-                    out.println(userInput);
+
+                    out.writeObject((Object)new Integer(0));
+                    out.flush();
                     String receivedWord = in.readLine();
                     System.out.println("echo: " + receivedWord);
                     if (receivedWord.equals("close"))
